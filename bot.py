@@ -2,6 +2,7 @@
 Inits the summary bot. It starts a Reddit instance using PRAW, gets the latest posts
 and filters those who have already been processed.
 """
+import os 
 
 import praw
 import requests
@@ -10,6 +11,10 @@ import tldextract
 import config
 import scraper
 import summary
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # We don't reply to posts which have a very small or very high reduction.
 MINIMUM_REDUCTION_THRESHOLD = 20
@@ -58,9 +63,10 @@ def log_error(error_message):
 
 def init():
     # Inits the bot
-    reddit = praw.Reddit(client_id=config.APP_ID, client_secret=config.APP_SECRET,
-                         user_agent=config.USER_AGENT, username=config.REDDIT_USERNAME,
-                         password=config.REDDIT_PASSWORD)
+    reddit = praw.Reddit(client_id=os.getenv('APP_ID'), client_secret=os.getenv('APP_SECRET'),
+                         user_agent=os.getenv('USER_AGENT'), username=os.getenv('REDDIT_USERNAME'),
+                         password=os.getenv('REDDIT_PASSWORD'))
+    #config.APP_ID
 
     processed_posts = load_log()
     whitelist = load_whitelist()
