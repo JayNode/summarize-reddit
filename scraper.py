@@ -49,7 +49,7 @@ def scrape_html(html_source):
             clean_date = item["content"].split("+")[0].replace("Z", "")
             
             # Use your preferred time formatting.
-            article_date = "{:%d-%m-%Y a las %H:%M:%S}".format(
+            article_date = "{:%d-%m-%Y %H:%M:%S}".format(
                 datetime.fromisoformat(clean_date))
             break
 

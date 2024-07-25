@@ -1,13 +1,9 @@
-### {}
+###{}
 
-[Nota Original]({}) | Reducido en un {:.2f}% | {}
+[Original Article]({}) | Reduced by {:.2f}% | {}
 
 *****
 
 {}
 
 *****
-
-*^Este ^bot ^solo ^responde ^cuando ^logra ^resumir ^en ^un ^mínimo ^del ^20%. ^Tus ^reportes, ^sugerencias ^y ^comentarios ^son ^bienvenidos. ​*
-
-[FAQ](https://redd.it/arkxlg) | [GitHub](https://git.io/fhQkC) | [☁️]({}) | {}

@@ -8,6 +8,7 @@ APP_ID = "3AFCZYbi69BlO59nbt8SaQ"
 APP_SECRET = "zLdRUQkaabXfEm3ptq2ai2Y8Dcd-Bw"
 USER_AGENT = "Python:SummarizerReddit:v1.0 (by /u/Summarizer-Bot)"
 
-SUBREDDITS = ["mexico"]
+SUBREDDITS = ["nature"]
 
-IMGUR_CLIENT_ID = ""
+IMGUR_CLIENT_ID = "980b7c4e8c42cc8"
+# IMGUR_CLIENT_SECRET = "045a9581286f166f60b1c55e28daf999ad28aaa1"

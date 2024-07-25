@@ -7,7 +7,7 @@ import praw
 import requests
 import tldextract
 
-import cloud
+# import cloud
 import config
 import scraper
 import summary
@@ -137,8 +137,8 @@ def init():
                     if summary_dict["reduction"] >= MINIMUM_REDUCTION_THRESHOLD and summary_dict["reduction"] <= MAXIMUM_REDUCTION_THRESHOLD:
 
                         # Create a wordcloud, upload it to Imgur and get back the url.
-                        image_url = cloud.generate_word_cloud(
-                            summary_dict["article_words"])
+                        # image_url = cloud.generate_word_cloud(
+                        #     summary_dict["article_words"])
 
                         # We start creating the comment body.
                         post_body = "\n\n".join(
@@ -150,7 +150,7 @@ def init():
                             top_words += "{}^#{} ".format(word, index+1)
 
                         post_message = TEMPLATE.format(
-                            article_title, clean_url, summary_dict["reduction"], article_date, post_body, image_url, top_words)
+                            article_title, clean_url, summary_dict["reduction"], article_date, post_body, "temp", top_words)
 
                         reddit.submission(submission.id).reply(post_message)
                         update_log(submission.id)
@@ -161,5 +161,4 @@ def init():
 
 
 if __name__ == "__main__":
-
     init()
