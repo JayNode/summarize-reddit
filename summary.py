@@ -1,15 +1,10 @@
-"""
-This script extracts and ranks the sentences and words of an article.
-
-IT is inspired by the tf-idf algorithm.
-"""
-
+# This script extracts and ranks the sentences and words of an article
 from collections import Counter
 
 import spacy
 
 # The stop words files.
-ES_STOPWORDS_FILE = "./assets/stopwords-es.txt"
+# ES_STOPWORDS_FILE = "./assets/stopwords-es.txt"
 EN_STOPWORDS_FILE = "./assets/stopwords-en.txt"
 
 # The number of sentences we need.
@@ -45,40 +40,19 @@ NLP = spacy.load("es_core_news_sm")
 
 
 def add_extra_words():
-    """Adds the title and uppercase forms of all words to COMMON_WORDS.
-
-    We parse local copies of stop words downloaded from the following repositories:
-
-    https://github.com/stopwords-iso/stopwords-es
-    https://github.com/stopwords-iso/stopwords-en
-    """
-
-    with open(ES_STOPWORDS_FILE, "r", encoding="utf-8") as temp_file:
-        for word in temp_file.read().splitlines():
-            COMMON_WORDS.add(word)
-
+    # Adds the title and uppercase forms of all the words to COMMON_WORDS
+    # Parse local copies of stop words downloaded from the following repositories
+    # https://github.com/stopwords-iso/stopwords-en
     with open(EN_STOPWORDS_FILE, "r", encoding="utf-8") as temp_file:
         for word in temp_file.read().splitlines():
             COMMON_WORDS.add(word)
-
 
 add_extra_words()
 
 
 def get_summary(article):
-    """Generates the top words and sentences from the article text.
-
-    Parameters
-    ----------
-    article : str
-        The article text.
-
-    Returns
-    -------
-    dict
-        A dict containing the title of the article, reduction percentage, top words and the top scored sentences.
-
-    """
+    # Generates the top words and sentences from the article text
+    # A dict containing the title of the article and reduction percentage
 
     # Now we prepare the article for scoring.
     cleaned_article = clean_article(article)
@@ -119,19 +93,7 @@ def get_summary(article):
 
 
 def clean_article(article_text):
-    """Cleans and reformats the article text.
-
-    Parameters
-    ----------
-    article_text : str
-        The article string.
-
-    Returns
-    -------
-    str
-        The cleaned up article.
-
-    """
+    # Cleans and reformats the article text
 
     # We divide the script into lines, this is to remove unnecessary whitespaces.
     lines_list = list()
