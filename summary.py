@@ -26,17 +26,17 @@ LINE_LENGTH_THRESHOLD = 150
 # Otherwise it will take into account partial words.
 COMMON_WORDS = {
     " ", "  ", "\xa0", "#", ",", "|", "-", "‘", "’", ";", "(", ")", ".", ":", "¿", "?", '“', "/",
-    '”', '"', "'", "%", "•", "«", "»", "foto", "photo", "video", "redacción", "nueve", "diez", "cien",
-    "mil", "miles", "ciento", "cientos", "millones", "vale"
+    '”', '"', "'", "%", "•", "«", "»", "photo", "video", "drafting", "new", "ten", "hundred", "hundreds",
+    "thousand", "thousands", "million", "millions", "OK"
 }
 
 # These words increase the score of a sentence. They don't require whitespaces around them.
-FINANCIAL_WORDS = ["$", "€", "£", "pesos", "dólar", "libras", "euros",
-                   "dollar", "pound", "mdp", "mdd"]
+FINANCIAL_WORDS = ["$", "€", "£", "dollar", "dollars", "pesos", "dólar", "libras", "euro", "euros",
+                    "pound", "pounds", "mdp", "mdd"]
 
 
 # Don't forget to specify the correct model for your language.
-NLP = spacy.load("es_core_news_sm")
+NLP = spacy.load("en_core_web_sm")
 
 
 def add_extra_words():

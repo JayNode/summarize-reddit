@@ -29,7 +29,7 @@ def scrape_html(html_source):
     for item in ["</p>", "</blockquote>", "</div>", "</h3>", "<br>"]:
         html_source = html_source.replace(item, item+"\n")
 
-    # We create a BeautifulSOup object and remove the unnecessary tags.
+    # We create a BeautifulSoup object and remove the unnecessary tags.
     soup = BeautifulSoup(html_source, "html5lib")
 
     # Then we extract the title and the article tags.
@@ -65,9 +65,9 @@ def scrape_html(html_source):
         ["script", "img", "ol", "ul", "time", "h1", "h2", "h3", "iframe", "style", "form", "footer", "figcaption"])]
 
     # These class names/ids are known to add noise or duplicate text to the article.
-    noisy_names = ["image", "img", "video", "subheadline", "editor", "fondea", "resumen", "tags", "sidebar", "comment",
+    noisy_names = ["image", "img", "video", "subheadline", "editor", "anchor", "summary", "tags", "sidebar", "comment",
                    "entry-title", "breaking_content", "pie", "tract", "caption", "tweet", "expert", "previous", "next",
-                   "compartir", "rightbar", "mas", "copyright", "instagram-media", "cookie", "paywall", "mainlist", "sitelist"]
+                   "share", "rightbar", "more", "copyright", "instagram-media", "cookie", "paywall", "mainlist", "sitelist"]
 
     for tag in soup.find_all("div"):
 
@@ -92,7 +92,7 @@ def scrape_html(html_source):
             pass
 
     # These names commonly hold the article text.
-    common_names = ["artic", "summary", "cont", "note", "cuerpo", "body"]
+    common_names = ["artic", "summary", "cont", "note", "body"]
 
     article_body = ""
 
