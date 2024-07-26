@@ -1,3 +1,7 @@
+"""
+NOTES: Fix rate limiter by stopping run after first success
+"""
+
 import praw
 import requests
 import tldextract
