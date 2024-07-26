@@ -64,59 +64,59 @@ def init():
     processed_posts = load_log()
     whitelist = load_whitelist()
 
-    for subreddit in config.SUBREDDITS:
+    # for subreddit in config.SUBREDDITS:
 
-        for submission in reddit.subreddit(subreddit).new(limit=50):
+    for submission in reddit.subreddit('nasa').new(limit=50):
 
-            if submission.id not in processed_posts:
-                # use tldextract to seperate url into respective parts
-                clean_url = submission.url.replace("amp.", "")
-                ext = tldextract.extract(clean_url)
-                domain = "{}.{}".format(ext.domain, ext.suffix)
+        if submission.id not in processed_posts:
+            # use tldextract to seperate url into respective parts
+            clean_url = submission.url.replace("amp.", "")
+            ext = tldextract.extract(clean_url)
+            domain = "{}.{}".format(ext.domain, ext.suffix)
 
-                if domain in whitelist:
+            if domain in whitelist:
 
-                    try:
-                        with requests.get(clean_url, headers=HEADERS, timeout=10) as response:
-                            # Checks for edge cases where encoding is not in utf-8, use ISO-8859-1  
-                            if "iso-8859-1" in response.text.lower():
-                                response.encoding = "iso-8859-1"
-                            elif response.encoding == "ISO-8859-1":
-                                response.encoding = "utf-8"
+                try:
+                    with requests.get(clean_url, headers=HEADERS, timeout=10) as response:
+                        # Checks for edge cases where encoding is not in utf-8, use ISO-8859-1  
+                        if "iso-8859-1" in response.text.lower():
+                            response.encoding = "iso-8859-1"
+                        elif response.encoding == "ISO-8859-1":
+                            response.encoding = "utf-8"
 
-                            html_source = response.text
+                        html_source = response.text
 
-                        article_title, article_date, article_body = scraper.scrape_html(
-                            html_source)
+                    article_title, article_date, article_body = scraper.scrape_html(
+                        html_source)
 
-                        summary_dict = summary.get_summary(article_body)
-                    except Exception as e:
-                        log_error("{},{}".format(clean_url, e))
-                        update_log(submission.id)
-                        print("Failed:", submission.id)
-                        continue
+                    summary_dict = summary.get_summary(article_body)
+                except Exception as e:
+                    log_error("{},{}".format(clean_url, e))
+                    update_log(submission.id)
+                    print("Failed:", submission.id)
+                    continue
 
-                    # To reduce low quality submissions, we only process those that made a meaningful summary.
-                    if summary_dict["reduction"] >= MINIMUM_REDUCTION_THRESHOLD and summary_dict["reduction"] <= MAXIMUM_REDUCTION_THRESHOLD:
+                # To reduce low quality submissions, we only process those that made a meaningful summary.
+                if summary_dict["reduction"] >= MINIMUM_REDUCTION_THRESHOLD and summary_dict["reduction"] <= MAXIMUM_REDUCTION_THRESHOLD:
 
-                        # We start creating the comment body.
-                        post_body = "\n\n".join(
-                            ["> " + item for item in summary_dict["top_sentences"]])
+                    # We start creating the comment body.
+                    post_body = "\n\n".join(
+                        ["> " + item for item in summary_dict["top_sentences"]])
 
-                        top_words = ""
+                    top_words = ""
 
-                        for index, word in enumerate(summary_dict["top_words"]):
-                            top_words += "{}^#{} ".format(word, index+1)
+                    for index, word in enumerate(summary_dict["top_words"]):
+                        top_words += "{}^#{} ".format(word, index+1)
 
-                        post_message = TEMPLATE.format(
-                            article_title, clean_url, summary_dict["reduction"], article_date, post_body)
+                    post_message = TEMPLATE.format(
+                        article_title, clean_url, summary_dict["reduction"], article_date, post_body)
 
-                        reddit.submission(submission.id).reply(post_message)
-                        update_log(submission.id)
-                        print("Replied to:", submission.id)
-                    else:
-                        update_log(submission.id)
-                        print("Skipped:", submission.id)
+                    reddit.submission(submission.id).reply(post_message)
+                    update_log(submission.id)
+                    print("Replied to:", submission.id)
+                else:
+                    update_log(submission.id)
+                    print("Skipped:", submission.id)
 
 
 if __name__ == "__main__":
