@@ -1,9 +1,3 @@
-"""
-Inits the summary bot. It starts a Reddit instance using PRAW, gets the latest posts
-and filters those who have already been processed.
-"""
-import os 
-
 import praw
 import requests
 import tldextract
@@ -71,7 +65,7 @@ def init():
         for submission in reddit.subreddit(subreddit).new(limit=50):
 
             if submission.id not in processed_posts:
-
+                # use tldextract to seperate url into respective parts
                 clean_url = submission.url.replace("amp.", "")
                 ext = tldextract.extract(clean_url)
                 domain = "{}.{}".format(ext.domain, ext.suffix)
@@ -80,9 +74,7 @@ def init():
 
                     try:
                         with requests.get(clean_url, headers=HEADERS, timeout=10) as response:
-
-                            # Most of the times the encoding is utf-8 but in edge cases
-                            # we set it to ISO-8859-1 when it is present in the HTML header.
+                            # Checks for edge cases where encoding is not in utf-8, use ISO-8859-1  
                             if "iso-8859-1" in response.text.lower():
                                 response.encoding = "iso-8859-1"
                             elif response.encoding == "ISO-8859-1":
