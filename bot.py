@@ -94,7 +94,7 @@ def init():
                         log_error("{},{}".format(clean_url, e))
                         update_log(submission.id)
                         print("Failed:", submission.id)
-                        # continue
+                        continue
 
                     # To reduce low quality submissions, we only process those that made a meaningful summary.
                     if summary_dict["reduction"] >= MINIMUM_REDUCTION_THRESHOLD and summary_dict["reduction"] <= MAXIMUM_REDUCTION_THRESHOLD:
