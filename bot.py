@@ -89,6 +89,7 @@ def init():
 
                             html_source = response.text
 
+                        # data from scrapper, use article_body for chatgpt
                         article_title, article_date, article_body = scraper.scrape_html(
                             html_source)
 

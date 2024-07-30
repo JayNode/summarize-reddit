@@ -92,7 +92,7 @@ def scrape_html(html_source):
             pass
 
     # These names commonly hold the article text.
-    common_names = ["artic", "summary", "cont", "note", "body"]
+    common_names = ["artic", "article", "summary", "cont", "note", "body"]
 
     article_body = ""
 
