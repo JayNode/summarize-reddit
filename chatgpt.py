@@ -1,10 +1,13 @@
+import os
 from openai import OpenAI
-import summary
+
 # link article from summary.py
 
 def aimodel(article_body):
 
-  client = OpenAI()
+  client = OpenAI(
+    api_key = os.environ.get("OPENAI_API_KEY"),
+  )
 
   assistant = client.beta.assistants.create(
     name="News Article Summarizer",
@@ -49,6 +52,6 @@ def aimodel(article_body):
   print("----------------------------------------------------------------")
   # results from chatgpt ai
   SUMM = all_messages.data[0].content[0].text.value
-  print(f"VGRB: {SUMM}")
+  print(f"Article: {SUMM}")
 
   return SUMM
