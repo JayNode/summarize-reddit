@@ -6,75 +6,85 @@ import chunking
 # link article from summary.py
 
 def aimodel(article_body):
-  print("gpt - Enter")
-
-  # def generate_summary(text):
-  #   input_chunks = split_text(text)
-  #   output_chunks = []
-  #   for chunk in input_chunks:
-  #       response = openai.Completion.create(
-  #           engine="davinci",
-  #           prompt=(f"Please summarize the following text:\n{chunk}\n\nSummary:"),
-  #           temperature=0.5,
-  #           max_tokens=1024,
-  #           n = 1,
-  #           stop=None
-  #       )
-  #       summary = response.choices[0].text.strip()
-  #       output_chunks.append(summary)
-  #   return " ".join(output_chunks)
 
   client = OpenAI(
     api_key = os.environ.get("OPENAI_API_KEY"),
   )
 
-  assistant = client.beta.assistants.create(
-    name="News Article Summarizer",
-    instructions="_EMPTY_",
-    model="gpt-3.5-turbo",
-    tools=[{"type": "code_interpreter"}]
-  )
+  input_chunks = chunking.split_text(article_body)
+  output_chunks = []
 
-  thread = client.beta.threads.create()
+  print("Entered gpt")
+  count = 0
+
+  for chunk in input_chunks:
+
+    print("count: " , count)
+    count+=1
+
+    response = client.completions.create(
+      model="gpt-3.5-turbo",
+      prompt=(f"You are a creative and experienced copywriter. Please write a unique summary of the following text using friendly, easy to read language:\n{chunk}\n\nSummary:"),
+      temperature=0.5,
+      max_tokens=1024,
+      n = 1,
+      stop=None
+    )
+
+    summary = response.choices[0].text.strip()
+    output_chunks.append(summary)
+
+  return " ".join(output_chunks)
+
+  # assistant = client.beta.assistants.create(
+  #   name="News Article Summarizer",
+  #   instructions="_EMPTY_",
+  #   model="gpt-3.5-turbo",
+  #   tools=[{"type": "code_interpreter"}]
+  # )
+
+  # thread = client.beta.threads.create()
 
   # list of user games sent to content
-  message = client.beta.threads.messages.create(
-      thread_id=thread.id,
-      role="user",
-      content=(article_body)
-  )
+  # message = client.beta.threads.messages.create(
+  #     thread_id=thread.id,
+  #     role="user",
+  #     content=(article_body)
+  # )
 
-  print("gpt - article")
+  # print("gpt - article")
 
   # instruction for finding most common genre from list of games
-  run = client.beta.threads.runs.create(
-    thread_id=thread.id,
-    assistant_id=assistant.id,
-    instructions="You are a creative and experienced copywriter. Please write a unique summary of the following text using friendly, easy to read language:"
-  )
-  count = 0
-  while run.status != "completed":
-      print("count:" , count)
-      count+=1
-      running = client.beta.threads.runs.retrieve(
-          thread_id=thread.id,
-          run_id=run.id
-      )
+  # run = client.beta.threads.runs.create(
+  #   thread_id=thread.id,
+  #   assistant_id=assistant.id,
+  #   instructions="You are a creative and experienced copywriter. Please write a unique summary of the following text using friendly, easy to read language:"
+  # )
 
-      if running.status == "completed":
-          break       
 
-  all_messages = client.beta.threads.messages.list(
-      thread_id=thread.id
-  )
+  # count = 0
+  # while run.status != "completed":
+  #     print("count:" , count)
+  #     count+=1
+  #     running = client.beta.threads.runs.retrieve(
+  #         thread_id=thread.id,
+  #         run_id=run.id
+  #     )
 
-  print("----------------------------------------------------------------")
-  # summarized article
-  print(f"Summary: {message.content[0].text.value}")
+  #     if running.status == "completed":
+  #         break       
 
-  print("----------------------------------------------------------------")
-  # results from chatgpt ai
-  SUMM = all_messages.data[0].content[0].text.value
-  print(f"Article: {SUMM}")
+  # all_messages = client.beta.threads.messages.list(
+  #     thread_id=thread.id
+  # )
 
-  return SUMM
+  # print("----------------------------------------------------------------")
+  # # summarized article
+  # print(f"Summary: {message.content[0].text.value}")
+
+  # print("----------------------------------------------------------------")
+  # # results from chatgpt ai
+  # SUMM = all_messages.data[0].content[0].text.value
+  # print(f"Article: {SUMM}")
+
+  # return SUMM

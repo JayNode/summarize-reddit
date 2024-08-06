@@ -92,9 +92,10 @@ def init():
                         
                         cleaned_article = cleanup.clean_article(article_body)
                         
+                        print("Before gpt")
                         # work on gpt fixes
-                        summary_chatgpt = chatgpt.aimodel(article_body)
-                        # print("SUM:::" + summary_chatgpt)
+                        summary_chatgpt = chatgpt.aimodel(cleaned_article)
+                        print("SUM:::" + summary_chatgpt)
 
                         summary_dict = summary.get_summary(article_body)
                         
