@@ -4,6 +4,7 @@ from openai import OpenAI
 # link article from summary.py
 
 def aimodel(article_body):
+  print("gpt - Enter")
 
   client = OpenAI(
     api_key = os.environ.get("OPENAI_API_KEY"),
@@ -25,14 +26,18 @@ def aimodel(article_body):
       content=(article_body)
   )
 
+  print("gpt - article")
+
   # instruction for finding most common genre from list of games
   run = client.beta.threads.runs.create(
     thread_id=thread.id,
     assistant_id=assistant.id,
-    instructions="Summarize the text provided within 100 words"
+    instructions="You are a creative and experienced copywriter. Please write a unique summary of the following text using friendly, easy to read language:"
   )
-
+  count = 0
   while run.status != "completed":
+      print("count:" , count)
+      count+=1
       running = client.beta.threads.runs.retrieve(
           thread_id=thread.id,
           run_id=run.id

@@ -9,6 +9,7 @@ import tldextract
 import config
 import scraper
 import summary
+import cleanup
 import chatgpt
 
 # We don't reply to posts which have a very small or very high reduction.
@@ -88,18 +89,22 @@ def init():
                         # data from scrapper, use article_body for chatgpt
                         article_title, article_date, article_body = scraper.scrape_html(
                             html_source)
-
-                        # use chatgpt to summarize the article, not summary.py
+                        
+                        cleaned_article = cleanup.clean_article(article_body)
+                        
+                        # work on gpt fixes
                         summary_chatgpt = chatgpt.aimodel(article_body)
-                        print("SUMMARY CHAT::: " + summary_chatgpt)
+                        # print("SUM:::" + summary_chatgpt)
 
                         summary_dict = summary.get_summary(article_body)
+                        
 
                     except Exception as e:
                         log_error("{},{}".format(clean_url, e))
                         update_log(submission.id)
                         print("Failed:", submission.id)
                         continue
+
 
                     # To reduce low quality submissions, we only process those that made a meaningful summary.
                     if summary_dict["reduction"] >= MINIMUM_REDUCTION_THRESHOLD and summary_dict["reduction"] <= MAXIMUM_REDUCTION_THRESHOLD:
