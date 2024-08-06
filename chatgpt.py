@@ -1,10 +1,28 @@
 import os
 from openai import OpenAI
 
+import chunking
+
 # link article from summary.py
 
 def aimodel(article_body):
   print("gpt - Enter")
+
+  # def generate_summary(text):
+  #   input_chunks = split_text(text)
+  #   output_chunks = []
+  #   for chunk in input_chunks:
+  #       response = openai.Completion.create(
+  #           engine="davinci",
+  #           prompt=(f"Please summarize the following text:\n{chunk}\n\nSummary:"),
+  #           temperature=0.5,
+  #           max_tokens=1024,
+  #           n = 1,
+  #           stop=None
+  #       )
+  #       summary = response.choices[0].text.strip()
+  #       output_chunks.append(summary)
+  #   return " ".join(output_chunks)
 
   client = OpenAI(
     api_key = os.environ.get("OPENAI_API_KEY"),
