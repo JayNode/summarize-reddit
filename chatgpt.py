@@ -31,8 +31,8 @@ def aimodel(article_body):
       stop=None
     )
 
-    summary = response.choices[0].text.strip()
-    output_chunks.append(summary)
+  summary = response.choices[0].text.strip()
+  output_chunks.append(summary)
 
   return " ".join(output_chunks)
 
