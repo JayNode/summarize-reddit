@@ -1,7 +1,3 @@
-"""
-NOTES: Fix rate limiter by stopping run after first success
-"""
-
 import praw
 import requests
 import tldextract
@@ -32,13 +28,11 @@ def load_whitelist():
     with open(WHITELIST_FILE, "r", encoding="utf-8") as log_file:
         return log_file.read().splitlines()
 
-
 def load_log():
     # Reads the processed posts log file and creates it if it doesn't exist. A list of Reddit posts ids.
     try:
         with open(POSTS_LOG, "r", encoding="utf-8") as log_file:
             return log_file.read().splitlines()
-
     except FileNotFoundError:
         with open(POSTS_LOG, "a", encoding="utf-8") as log_file:
             return []
@@ -83,7 +77,6 @@ def init():
                             elif response.encoding == "ISO-8859-1":
                                 response.encoding = "utf-8"
                        
-
                             html_source = response.text
 
                         # data from scrapper, use article_body for chatgpt
