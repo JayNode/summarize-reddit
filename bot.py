@@ -47,7 +47,7 @@ def update_log(post_id):
 def log_error(error_message):
     # Updates the error log. A string containing the faulty url and the exception message.
     with open(ERROR_LOG, "a", encoding="utf-8") as log_file:
-        log_file.write("{}\n".format(error_message))
+        log_file.write(" {}\n".format(error_message))
 
 
 def init():

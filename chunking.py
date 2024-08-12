@@ -1,6 +1,6 @@
 def split_text(text):
 
-    max_chunk_size = 2048
+    max_chunk_size = 2048;
 
     chunks = []
     current_chunk = ""
