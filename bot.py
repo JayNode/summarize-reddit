@@ -8,7 +8,6 @@ import summary
 import cleanup
 import chatgpt
 
-# We don't reply to posts which have a very small or very high reduction.
 MINIMUM_REDUCTION_THRESHOLD = 20
 MAXIMUM_REDUCTION_THRESHOLD = 68
 
@@ -19,8 +18,6 @@ ERROR_LOG = "./error.log"
 
 # Templates.
 TEMPLATE = open("./templates/template.txt", "r", encoding="utf-8").read()
-
-HEADERS = {"User-Agent": "Summarizer v2.0"}
 
 
 def load_whitelist():
@@ -69,7 +66,7 @@ def init():
                 
                 if domain in whitelist:
                     try:
-                        with requests.get(clean_url, headers=HEADERS, timeout=10) as response:
+                        with requests.get(clean_url, timeout=10) as response:
                             # Checks for edge cases where encoding is not in utf-8, use ISO-8859-1  
                             if "iso-8859-1" in response.text.lower():
                                 response.encoding = "iso-8859-1"
