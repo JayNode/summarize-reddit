@@ -11,19 +11,19 @@ def aimodel(article_body):
     api_key = os.environ.get("OPENAI_API_KEY"),
   )
 
-  # input_chunks = chunking.split_text(article_body)
+  input_chunks = chunking.split_text(article_body)
   output_chunks = []
+
+  print(input_chunks[0])
+  print("\n\n")
+  print(input_chunks[1])
 
   print("Entered gpt")
   count = 0
 
-  for chunk in article_body:
-
-    print("count: " , count)
-    count+=1
-
+  for chunk in input_chunks:
     response = client.completions.create(
-      model="gpt-4o-mini",
+      model="gpt-3.5-turbo",
       prompt=(f"You are a creative and experienced copywriter. Please write a unique summary of the following text using friendly, easy to read language:\n{chunk}\n\nSummary:"),
       temperature=0.5,
       max_tokens=1024,
@@ -33,6 +33,8 @@ def aimodel(article_body):
 
   summary = response.choices[0].text.strip()
   output_chunks.append(summary)
+
+  print("summ" + summary)
 
   return " ".join(output_chunks)
 
